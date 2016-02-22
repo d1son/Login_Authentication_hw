@@ -121,46 +121,6 @@ var Instructor = sequelize.define("instructor", {
 	}
 }); 
 
-var Student = sequelize.define("student", {
-	username: {
-		type: Sequelize.STRING,
-		allowNull: false,
-		unique: true,
-		validate: {
-			len: {
-				args: [1, 50],
-				msg: "Your username must be between 1 & 50 characters long"
-			}	
-		}
-	},
-	password: {
-		type: Sequelize.STRING,
-		allowNull: false,
-		unique: true,
-		validate: {
-			len: [5,50]
-		}
-	},
-	firstname: {
-		type: Sequelize.STRING,
-		allowNull: false
-	},
-	lastname: {
-		type: Sequelize.STRING,
-		allowNull: false
-	},
-	email: {
-		type: Sequelize.STRING,
-		allowNull: false
-	}
-}, {
-	hooks: {
-		beforeCreate: function(input) {
-			input.password = bcrypt.hashSync(input.password, 120)
-		}
-	}
-}); 
-
 var TA = sequelize.define("TA", {
 	username: {
 		type: Sequelize.STRING,
