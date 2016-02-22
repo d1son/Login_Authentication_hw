@@ -3,6 +3,7 @@
 var express = require("express");
 var app = express();
 var PORT = process.env.NODE_ENV || 3000;
+var session = require("express-session");
 var expressHandlebars = require("express-handlebars");
 
 //initialize Database setup
