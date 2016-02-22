@@ -41,17 +41,21 @@ app.use(bodyParser.urlencoded({ //uses the body parser to get info from the body
 
 // Setup the routes for each of the pages that need to be rendered
 
-app.get("/", function (req, res) {
+app.get("/", function (req, res) { //route for the / (home) page
 	res.render("index"); // the file in the ("") must be in the views folder
 });
 
-app.get("/registration", function(req, res) {
+app.get("/registration", function(req, res) { // route for the registration page in the views folder
 	res.render("registration", { msg: "You've reached the registration page"}); //this will render the registration.handlebars in the views folder
 });
 
-app.get("/login", function(req, res) {
+app.get("/login", function(req, res) { //route for the login page in the views folder
 	res.render("login", { msg: "You've reached the login page"});
 });
+
+app.get("/students", function(req, res) { //route for the students page in the views folder
+	res.render("students", { msg: "You've reached the students page"});
+});	
 
 connection.sync().then(function() {
 	app.listen(PORT, function () {
