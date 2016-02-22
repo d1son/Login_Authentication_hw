@@ -57,6 +57,10 @@ app.get("/students", function(req, res) { //route for the students page in the v
 	res.render("students", { msg: "You've reached the students page"});
 });	
 
+app.get("/instructors", function(req, res) {
+	res.render("instructors", { msg: "You've reached the instructors page"})
+});
+
 connection.sync().then(function() {
 	app.listen(PORT, function () {
 		console.log("Listening on port: " + PORT);
