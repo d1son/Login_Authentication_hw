@@ -8,9 +8,8 @@ var expressHandlebars = require("express-handlebars");
 
 //initialize Database setup
 var Sequelize = require("sequelize");
-var connection = new Sequelize("login_auth_db", "root");
+var sequelize = new Sequelize("login_auth_db", "root");
 var mysql = require("mysql");
-
 
 //initialize other packages needed
 // var bcrypt = require("bcryptjs"); //needed to encrypt password
@@ -28,6 +27,7 @@ var bodyParser = require("body-parser");
 // app.use(passport.session()); this is for using passport
 
 // Handlebars setup, expressHandlebars initialized at the top of the page
+app.use("/static", express.static("public"));
 
 app.engine("handlebars", expressHandlebars({
 	defaultlayout: "main" //default layout is set to the "main" file, in the layouts folder
@@ -38,6 +38,171 @@ app.set("view engine", "handlebars"); //not sure what this does
 app.use(bodyParser.urlencoded({ //uses the body parser to get info from the body
 	extended: false
 }));
+
+// Models start here - this uses sequelize to build the tables *sequelize will NOT build a db, only tables*
+
+var Student = sequelize.define("student", {
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: {
+				args: [1, 50],
+				msg: "Your username must be between 1 & 50 characters long"
+			}	
+		}
+	},
+	password: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: [5,50]
+		}
+	},
+	firstname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	lastname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	email: {
+		type: Sequelize.STRING,
+		allowNull: false
+	}
+}, {
+	hooks: {
+		beforeCreate: function(input) {
+			input.password = bcrypt.hashSync(input.password, 120)
+		}
+	}
+}); 
+
+var Instructor = sequelize.define("instructor", {
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: {
+				args: [1, 50],
+				msg: "Your username must be between 1 & 50 characters long"
+			}	
+		}
+	},
+	password: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: [5,50]
+		}
+	},
+	firstname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	lastname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	email: {
+		type: Sequelize.STRING,
+		allowNull: false
+	}
+}, {
+	hooks: {
+		beforeCreate: function(input) {
+			input.password = bcrypt.hashSync(input.password, 120)
+		}
+	}
+}); 
+
+var Student = sequelize.define("student", {
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: {
+				args: [1, 50],
+				msg: "Your username must be between 1 & 50 characters long"
+			}	
+		}
+	},
+	password: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: [5,50]
+		}
+	},
+	firstname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	lastname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	email: {
+		type: Sequelize.STRING,
+		allowNull: false
+	}
+}, {
+	hooks: {
+		beforeCreate: function(input) {
+			input.password = bcrypt.hashSync(input.password, 120)
+		}
+	}
+}); 
+
+var TA = sequelize.define("TA", {
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: {
+				args: [1, 50],
+				msg: "Your username must be between 1 & 50 characters long"
+			}	
+		}
+	},
+	password: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			len: [5,50]
+		}
+	},
+	firstname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	lastname: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	email: {
+		type: Sequelize.STRING,
+		allowNull: false
+	}
+}, {
+	hooks: {
+		beforeCreate: function(input) {
+			input.password = bcrypt.hashSync(input.password, 120)
+		}
+	}
+}); 
+
+
+
 
 // Setup the routes for each of the pages that need to be rendered
 
@@ -61,7 +226,7 @@ app.get("/instructors", function(req, res) {
 	res.render("instructors", { msg: "You've reached the instructors page"})
 });
 
-connection.sync().then(function() {
+sequelize.sync().then(function() {
 	app.listen(PORT, function () {
 		console.log("Listening on port: " + PORT);
 	})
