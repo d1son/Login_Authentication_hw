@@ -46,7 +46,11 @@ app.get("/", function (req, res) {
 });
 
 app.get("/registration", function(req, res) {
-	res.render("registration", { msg: "TEST MESSAGE"}); //this will render the registration.handlebars in the views folder
+	res.render("registration", { msg: "You've reached the registration page"}); //this will render the registration.handlebars in the views folder
+});
+
+app.get("/login", function(req, res) {
+	res.render("login", { msg: "You've reached the login page"});
 });
 
 connection.sync().then(function() {
